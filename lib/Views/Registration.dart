@@ -1,17 +1,9 @@
+import 'package:canafrica2024/Controllers/RegistrationController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
-
-class Registration extends StatefulWidget {
-
-
-  const Registration({super.key});
-
-  @override
-  State<Registration> createState() => _RegistrationState();
-}
-
-class _RegistrationState extends State<Registration> {
+class Registration extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -20,7 +12,7 @@ class _RegistrationState extends State<Registration> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
+    return GetX<RegistrationController>(builder: (controller) => Scaffold(
         body: Padding(
           padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.1,
@@ -50,6 +42,7 @@ class _RegistrationState extends State<Registration> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   TextField(
                     decoration: InputDecoration(border: OutlineInputBorder()),
+                    controller: controller.name,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Text("Email"),
@@ -57,6 +50,7 @@ class _RegistrationState extends State<Registration> {
                   TextField(
                     decoration: InputDecoration(border: OutlineInputBorder()),
                     keyboardType: TextInputType.emailAddress,
+                    controller: controller.email,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Text("Phone"),
@@ -64,6 +58,7 @@ class _RegistrationState extends State<Registration> {
                   TextField(
                     decoration: InputDecoration(border: OutlineInputBorder()),
                     keyboardType: TextInputType.phone,
+                    controller: controller.phone,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Text("Password"),
@@ -71,12 +66,25 @@ class _RegistrationState extends State<Registration> {
                   TextField(
                     decoration: InputDecoration(border: OutlineInputBorder()),
                     obscureText: true,
+                    controller: controller.password,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      ElevatedButton(onPressed: () {}, child: Text("Submit")),
+                      ElevatedButton(onPressed: () {
+                        controller.register();
+                        print(controller.name.value.text);
+                      }, child: Row(
+                        children: [
+                          Visibility(
+                            visible:controller.loading.value,
+                            child: CircularProgressIndicator()
+                          ),
+                          Text("Submit")
+                        ],
+                      )
+                      ),
                       ElevatedButton(onPressed: () {
                         Get.back();
                       }, child: Text("Back")),
@@ -88,6 +96,6 @@ class _RegistrationState extends State<Registration> {
             ),
           ),
         ) // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ));
   }
 }
