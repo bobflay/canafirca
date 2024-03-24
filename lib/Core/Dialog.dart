@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 
-void showSuccessDialog(BuildContext context,title,body) {
+void showSuccessDialog(BuildContext context,title,body,Function? callback) {
 {
     // iOS-specific code
     showDialog(
@@ -16,6 +16,10 @@ void showSuccessDialog(BuildContext context,title,body) {
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
+                if(callback!=null)
+                  {
+                    callback();
+                  }
               },
             ),
           ],

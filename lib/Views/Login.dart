@@ -63,6 +63,7 @@ class Login extends GetView<LoginController> {
                         print("clicked!!!!");
                         print(controller.email.value.text);
                         print(controller.password.value.text);
+                        controller.login();
                       }, child: Text("Login")),
                       ElevatedButton(onPressed: () {
                         Get.toNamed(AppRoute.register);
